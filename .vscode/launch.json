@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PruebaDesempenoApplication<prueba_desempeno>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.riwi.prueba_desempeno.PruebaDesempenoApplication",
+            "projectName": "prueba_desempeno",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
