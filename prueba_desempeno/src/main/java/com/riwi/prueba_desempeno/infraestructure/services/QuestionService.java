@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.riwi.prueba_desempeno.api.dto.request.QuestionEdited;
 import com.riwi.prueba_desempeno.api.dto.request.QuestionRequest;
 import com.riwi.prueba_desempeno.api.dto.response.OptionQuestionResponse;
 import com.riwi.prueba_desempeno.api.dto.response.QuestionResponse;
@@ -115,6 +116,12 @@ public class QuestionService implements IQuestionService {
     // ***************** UTILS *********************//
     private Question find(Long id) {
         return questionRepository.findById(id).orElseThrow(() -> new BadRequestException(ErrorMessage.idNotFound("question")));
+    }
+
+    public QuestionResponse updateQuestionText(QuestionEdited QuestionEdited, Long id) {
+        Question question = find(id);
+        question.setText(QuestionEdited.getText());
+        return QuestionHelper.questionToResp(question);
     }
 
 }

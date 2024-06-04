@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.riwi.prueba_desempeno.api.dto.errors.ErrorResp;
+import com.riwi.prueba_desempeno.api.dto.request.QuestionEdited;
 import com.riwi.prueba_desempeno.api.dto.request.QuestionRequest;
 import com.riwi.prueba_desempeno.api.dto.response.QuestionResponse;
 import com.riwi.prueba_desempeno.api.dto.response.QuestionResponseOptions;
@@ -74,17 +75,29 @@ public class QuestionController {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResp.class))
   })
   @PostMapping
-  public ResponseEntity<QuestionResponse> createSurvey(@Validated @RequestBody QuestionRequest questionRequest) {
+  public ResponseEntity<QuestionResponse> createQuestion(@Validated @RequestBody QuestionRequest questionRequest) {
     return ResponseEntity.ok(questionService.create(questionRequest));
   }
 
-  @Operation(summary = "Update an question by its ID number")
+  // @Operation(summary = "Update an question by its ID number")
+  // @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
+  //     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResp.class))
+  // })
+  // @PutMapping("{id}")
+  // public ResponseEntity<QuestionResponse> updateQuestion(@Validated @RequestBody QuestionRequest questionRequest,
+  //     @PathVariable Long id) {
+  //   return ResponseEntity.ok(questionService.update(questionRequest, id));
+  // }
+
+  @Operation(summary = "Update an question by its ID number only text")
   @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResp.class))
   })
-  @PutMapping("{id}")
-  public ResponseEntity<QuestionResponse> updateSurvey(@Validated @RequestBody QuestionRequest questionRequest, @PathVariable Long id) {
-    return ResponseEntity.ok(questionService.update(questionRequest, id));
+
+  @PatchMapping("{id}")
+  public ResponseEntity<QuestionResponse> updateQuestionText(@Validated @RequestBody QuestionEdited questionRequest,
+      @PathVariable Long id) {
+    return ResponseEntity.ok(questionService.updateQuestionText(questionRequest, id));
   }
 
   @Operation(summary = "Delete an question by its ID number")
@@ -93,7 +106,7 @@ public class QuestionController {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResp.class))
   })
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteSurvey(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
     questionService.delete(id);
     return ResponseEntity.noContent().build();
   }
