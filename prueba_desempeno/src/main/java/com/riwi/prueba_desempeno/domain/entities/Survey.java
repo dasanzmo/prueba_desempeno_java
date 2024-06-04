@@ -1,6 +1,6 @@
 package com.riwi.prueba_desempeno.domain.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,7 +39,7 @@ public class Survey {
     private String description;
 
     @CreationTimestamp
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @Column
     private boolean active;
