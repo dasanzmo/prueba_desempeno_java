@@ -41,9 +41,6 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 
-    @Column(length = 100, nullable = false)
-    private String description;
-
     @Column
     private boolean active;
 
