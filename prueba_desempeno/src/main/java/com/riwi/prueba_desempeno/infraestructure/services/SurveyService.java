@@ -18,6 +18,7 @@ import com.riwi.prueba_desempeno.domain.repositories.QuestionRepository;
 import com.riwi.prueba_desempeno.domain.repositories.SurveyRepository;
 import com.riwi.prueba_desempeno.domain.repositories.UserRepository;
 import com.riwi.prueba_desempeno.infraestructure.abstract_services.ISurveyService;
+import com.riwi.prueba_desempeno.infraestructure.helpers.EmailHelper;
 import com.riwi.prueba_desempeno.infraestructure.helpers.QuestionHelper;
 import com.riwi.prueba_desempeno.infraestructure.helpers.SurveyHelper;
 import com.riwi.prueba_desempeno.infraestructure.helpers.UserHelper;
@@ -39,6 +40,9 @@ public class SurveyService implements ISurveyService {
 
     @Autowired
     private final QuestionRepository questionRepository;
+
+    @Autowired
+    private final EmailHelper emailHelper;
 
     /* OBTENER TODAS LAS ENCUESTAS */
     @Override
@@ -68,6 +72,14 @@ public class SurveyService implements ISurveyService {
         Survey survey = SurveyHelper.reqToSurvey(request);
 
         survey.setCreator(creator);
+        
+        //Email
+        if (creator.getEmail() != null) {
+            emailHelper.sendEmail(
+                creator.getEmail(),
+                creator.getName(),
+                survey.getTitle());
+        }
 
         return SurveyHelper.SurveyToResp(surveyRepository.save(survey));
     }
@@ -75,6 +87,8 @@ public class SurveyService implements ISurveyService {
     /* ACTUALIZAR UNA ENCUESTA */
     @Override
     public SurveyResponse update(SurveyRequest request, Long id) {
+
+
         Survey surveyFound = find(id);
         Survey survey = SurveyHelper.reqToSurvey(request);
         survey.setId(id);
